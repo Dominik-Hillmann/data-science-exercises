@@ -3,11 +3,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-np.random.seed(4) # same random data every time
+# np.random.seed(5) # same random data every time
 
 syntaxTest = np.random.normal(50.0, 10.0, 1000)
 pageSpeeds = np.random.normal(3.0, 1.0, 1000)
-purchaseAmount = syntaxTest / pageSpeeds
+purchaseAmount = syntaxTest / pageSpeeds / 3
 
 for i in range(3):
     print(pageSpeeds[i])
@@ -20,8 +20,20 @@ for i in range(3):
 plt.scatter(pageSpeeds, purchaseAmount)
 plt.show()
 
-polyn2 = np.polyfit(pageSpeeds, purchaseAmount, 2) # returns coefficients, highest power first, so 2, 1, intercept
-print(polyn2) # np.poly
+polyn = np.poly1d(np.polyfit(pageSpeeds, purchaseAmount, 3)) # polyn kann als Fkt genutzt werden, poly1d ist Konstruktor einer Polynomfkt
+print(polyn)
+
+x = np.linspace(-1, 7, 1000)
+plt.plot(x, polyn(x), c = "r")
+plt.show()
+
+for polyDegr in range(6):
+    plt.scatter(pageSpeeds, purchaseAmount)
+    polyn = np.poly1d(np.polyfit(pageSpeeds, purchaseAmount, polyDegr))
+    plt.plot(x, polyn(x), c = "r")
+    plt.show()
+
+
 
 # def polyn(x, coeff):
 #     n = len(coeff)
