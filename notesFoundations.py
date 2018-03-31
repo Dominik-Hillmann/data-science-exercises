@@ -15,9 +15,10 @@ print(df[["Previous employers", "Hired"]]) # auswählen aller Elemente, bestimmt
 smallDf = (df[["Previous employers", "Hired"]][5:])[:6] # zweites Auswahlelement sind die Zahlen der Beobachtungen
 numEmploy = smallDf["Previous employers"].value_counts() # zählt wie oft jeder Wert in Previous employers vorkommt -> histogram
 numEmploy.sort_values()
+df = df[["Attribut"] > 0] # BOOLEAN INDEXING
+df.shape # Dimensionen des DataFrame
 numEmploy.plot(kind = "bar")
 plt.show() # histogram
-
 
 # ***** NUMPY Funktionen
 # from scipy import stats ==
@@ -111,6 +112,10 @@ plt.show()
 
 # ***** POLYNOMIAL REGRESSION *****
 # x and y are are arrays of numbers, both same len
-p4 = np.poly1d(np.polyfit(x, y, 4))
+polyn = np.poly1d(np.polyfit(x, y, 4)) # auf diese Weise wird die Funktion für die Polynomfunktion erzeugt
+plt.plot(x, polyn(x), c = "r") # hier wird die Funktion vierten Grades geplottet
+plt.show()
 from sklearn.metrics import r2_score
-r2 = r2_score(y, p4(x)) # handy
+r2 = r2_score(np.array(np.random.normal(50.0, 10.0, 1000)), polyn(x)) # messen wie gut fittet
+
+# ***** MULTIVARIATE REGRESSION *****

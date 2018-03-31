@@ -2,6 +2,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.metrics import r2_score as r2
 
 # np.random.seed(5) # same random data every time
 
@@ -27,10 +28,11 @@ x = np.linspace(-1, 7, 1000)
 plt.plot(x, polyn(x), c = "r")
 plt.show()
 
-for polyDegr in range(6):
+for polyDegr in range(10):
     plt.scatter(pageSpeeds, purchaseAmount)
-    polyn = np.poly1d(np.polyfit(pageSpeeds, purchaseAmount, polyDegr))
+    polyn = np.poly1d(np.polyfit(np.array(pageSpeeds), np.array(purchaseAmount), polyDegr))
     plt.plot(x, polyn(x), c = "r")
+    print(r2(purchaseAmount, polyn(x)))
     plt.show()
 
 
