@@ -27,10 +27,7 @@ for dataIndex in range(NUM_DATA):
         testSpeeds.append(pageSpeeds[dataIndex])
         testPurchase.append(purchaseAmount[dataIndex])
 
-print(len(trainSpeeds))
-print(len(testSpeeds))
-print(len(trainPurchase))
-print(len(testPurchase))
+print("Matching lengths? ", len(trainSpeeds) == len(trainPurchase) & len(testSpeeds) == len(testPurchase))
 
 trainSpeedsNp = np.array(trainSpeeds)
 trainPurchaseNp = np.array(trainPurchase)
@@ -65,6 +62,6 @@ print("BEST FIT WITH ", bestFit)
 
 """
 Conclusion: the r2 of the test data often rises with the degrees in the low degrees
-until a point where the fit starts to fall of and gets worse and worse for the test data.
+until there's a point where the fit starts to get worse and worse for the test data.
 The fit for the training data continues to rise: fit(testData) falling while fit(trainData) rising --> overfitting
 """
