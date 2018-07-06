@@ -29,3 +29,12 @@ k-Means clustering:
 How large should k be?
 > start with a low k
 """
+
+"""
+***** The concept of entropy *****
+
+Definition:
+> verbally, measure of "sameness" of dataset
+> e.g. data set consists of of things ordered into classes. If most observations belong into one class, entropy is low
+> but are there several groups/classes that are roughly the same size, the data set is more disordered and has therefore higher entropy
+"""
