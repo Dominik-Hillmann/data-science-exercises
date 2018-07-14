@@ -32,5 +32,21 @@
 
 """
 ***** Reinforcement Learning *****
->
+> Q-Learning
+> imagine Pac-Man, it is the agent in this expample
+> for each of the states s Pac-Man can be in (ghost, walls, etc. nearby), there is a set of possible actions a Pac-Man can perform (up, down, left, right)
+> each pair (a, s) has a value Q which is the metric by which it decides what action to take
+> e.g. Pac-Man performs an action and gets eaten by a ghost, then the action performed in this situation gets penalized by a lower Q
+  so that the agent is less likely to take the same action the next time the same situation occurs. It learned.
+> Vice versa, if favorable things happen to the agent, the Q value of the (a, s) pair gets raised so that the agent is more likely
+  to act in the same way
+> all Qs for all (a, s) start with value of 0
+
+> exploration problem: to converge on good Q-values by starting with 0 for all Qs and always choosing a with highest Q is inefficient
+  to explore the entire space of actions and their consequences
+> all this is a "Markov Decesion Process"
+
+> in short, reinforcement learning consists of an exploration phase where correct rewards for actions in certain situations are found
+> then there is an optimal action in each situation to take and your agent behaves in an (almost) optimal manner
+
 """

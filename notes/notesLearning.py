@@ -76,5 +76,5 @@ Random Forests:
 > classifies by putting observations into clusters
 > good choice for high dimensional data
 > divides data into clusters by finding the hyperplanes the seperate them (support vectors)
-> different "kernels" have different computational cost and can produce cluster borders (hyperplanes) that have different compexity (e.g. linear to polynomial or sigmoid)
+> different "kernels" have different computational cost and can produce cluster borders (hyperplanes) that have different complexity (e.g. linear to polynomial or sigmoid)
 """
