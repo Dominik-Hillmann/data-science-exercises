@@ -46,30 +46,35 @@ from keras.layers import Dense, Dropout
 from tensorflow.keras.wrappers.scikit_learn import KerasClassifier
 import numpy as np
 
+def randTestData(Y, X, num):
+	import random as r
+	drawn = []
+	testY = []
+	testX = []
 
-import random as r
-drawn = []
-testParty = []
-testBehavior = []
-length = len(party)
-
-while len(testParty) < 32:
-	print(len(testParty))
-	i = r.randint(0, length - 1)
-	while i in drawn:
+	while len(testY) < 32:
+		# print(len(Y), len(X), len(testX), len(testY))
+		length = len(Y)
 		i = r.randint(0, length - 1)
 
-	drawn.append(i)
+		while i in drawn: i = r.randint(0, length - 1)
 
-	testParty.append(party[i])
-	testBehavior.append(voteBehavior[i])
+		drawn.append(i)
 
-	party = np.delete(party, party[i])
-	voteBehavior = np.delete(voteBehavior, voteBehavior[i], 1)
+		testY.append(Y[i])
+		testX.append(X[i])
+
+		Y = np.delete(Y, i)
+		X = np.delete(X, i, 0)
+
+	return (np.array(testY), np.array(testX), Y, X)
+
+(testParty, testBehavior, party, voteBehavior) = randTestData(party, voteBehavior, 32)
 
 
 # shape
-print((len(voteBehavior[0]), len(voteBehavior)))
+print("Training data:", (len(party), len(voteBehavior), len(voteBehavior[0])))
+print("Test data:", (len(testParty), len(testBehavior), len(testBehavior[0])))
 
 def Model():
 	model = Sequential()
@@ -78,7 +83,7 @@ def Model():
 	model.add(Dense(
 		64,
 		activation = 'relu',
-		input_shape = (len(voteBehavior[0]), len(voteBehavior))
+		input_shape = (len(voteBehavior[0]), )
 	))
 	model.add(Dropout(0.5))
 
@@ -96,3 +101,27 @@ def Model():
 	)
 
 	return model
+
+model = Model()
+print(model.summary())
+
+history = model.fit(
+	voteBehavior, party,
+	batch_size = 1,
+	epochs = 200,
+	verbose = 2,
+	validation_data = (testBehavior, testParty)
+)
+
+print(model.evaluate(testBehavior, testParty, verbose = 2))
+
+
+from tensorflow.Keras.wrappers.scikit_learn import KerasClassifier
+estimator = KerasClassifier(
+	build_fn = Model,
+	epochs,
+	verbose = 2
+)
+
+crossValScores = cross_val_scorce(estimator, features, labels, cv = 10)
+print(crossValScores, crossValScores.mean())
