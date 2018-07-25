@@ -47,17 +47,18 @@ from tensorflow.keras.wrappers.scikit_learn import KerasClassifier
 import numpy as np
 
 def randTestData(Y, X, num):
-	import random as r
+	from random import randint
 	drawn = []
 	testY = []
 	testX = []
+	length = len(Y)
 
-	while len(testY) < 32:
+	while len(testY) < num:
 		# print(len(Y), len(X), len(testX), len(testY))
 		length = len(Y)
-		i = r.randint(0, length - 1)
+		i = randint(0, length - 1)
 
-		while i in drawn: i = r.randint(0, length - 1)
+		while i in drawn: i = randint(0, length - 1)
 
 		drawn.append(i)
 
@@ -69,7 +70,11 @@ def randTestData(Y, X, num):
 
 	return (np.array(testY), np.array(testX), Y, X)
 
-(testParty, testBehavior, party, voteBehavior) = randTestData(party, voteBehavior, 32)
+(testParty, testBehavior, party, voteBehavior) = randTestData(
+	party, 
+	voteBehavior, 
+	int(0.1 * len(party))
+)
 
 
 # shape
@@ -88,7 +93,10 @@ def Model():
 	model.add(Dropout(0.5))
 
 	# second hidden layer with dropout
-	model.add(Dense(64, activation = 'relu'))
+	model.add(Dense(32, activation = 'relu'))
+	model.add(Dropout(0.5))
+
+	model.add(Dense(16, activation = 'relu'))
 	model.add(Dropout(0.5))	
 
 	# output layer, only yes or no: Democrat?
@@ -107,21 +115,28 @@ print(model.summary())
 
 history = model.fit(
 	voteBehavior, party,
-	batch_size = 1,
-	epochs = 200,
+	batch_size = 2,
+	epochs = 100,
 	verbose = 2,
 	validation_data = (testBehavior, testParty)
 )
 
 print(model.evaluate(testBehavior, testParty, verbose = 2))
 
-
-from tensorflow.Keras.wrappers.scikit_learn import KerasClassifier
+# from tensorflow.Keras.wrappers.scikit_learn import KerasClassifier
+# evaluate using 10-fold cross validation
 estimator = KerasClassifier(
 	build_fn = Model,
-	epochs,
+	nb_epoch = 200,
+	batch_size = 1,
 	verbose = 2
 )
 
-crossValScores = cross_val_scorce(estimator, features, labels, cv = 10)
-print(crossValScores, crossValScores.mean())
+from sklearn.model_selection import cross_val_score
+results = cross_val_score(
+	estimator, 
+	voteBehavior, 
+	party,
+	cv = 3 # k, number of folds
+)
+print(results.mean())

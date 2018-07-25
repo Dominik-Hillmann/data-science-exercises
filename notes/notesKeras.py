@@ -64,6 +64,7 @@ def createModel():
 
 from tensorflow.Keras.wrappers.scikit_learn import KerasClassifier
 estimator = KerasClassifier(
+	# there is also a KerasClassifier and KerasRegressor interface
 	build_fn = createModel,
 	epochs,
 	verbose = 0
