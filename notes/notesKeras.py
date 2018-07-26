@@ -74,7 +74,7 @@ crossValScores = cross_val_scorce(estimator, features, labels, cv = 10)
 print(crossValScores, crossValScores.mean())
 
 """
-***** Convolutional Neural Networks CNN *****
+***** Convolutional Neural Networks CNNs *****
 > what are they used for?
 	> when you want to search for pattern but there is not any specific spot to search for them
 	> e.g. images with certain features, machine translation, sentence classification, sentiment/mood analysis
@@ -104,5 +104,37 @@ print(crossValScores, crossValScores.mean())
 
 > already a lot of research and there a topologies that have proven to be most useful for certain problems:
 	> LeNet-5 (handwriting), AlexNet (image classification), ResNet ("skip connections" between non neighbouring layers)
+"""
+
+"""
+***** Recurrent Neural Networks RNNs *****
+> for Time-Series data
+> predict future behvior based on past behavior
+> e.g. web logs, sensor logs, stock trades
+> data that consists of sequences of arbitrary length
+
+> how does an individual neural work?
+	> like a normal neuron, but the output of the neuron from the past run get fed into the neuron again
+	> "memory cell" - it remembers its past state
+	> often adjustments: the more recent a behavior the more influence on the current state
+> topologies
+	> enables us to deal with sequences, not just snapshots
+
+	> sequence to sequence: predict stock prices based on past prices
+	> seq to vector: sentence --> sentiment
+	> vec to seq: image --> image captions
+	> encoder --> decoder
+		> RNNs feeding into each other, e.g. Chinese sentence --> meaning --> German sentence
+		> would look like seq --> vec --> seq, translation
+> training
+	> backpropagation through time
+		> not only through network but through each past point in time
+		> adds up very fast
+		> upper cap to limit: to certain # steps back in time
+> counteract effect that data from distant points in time matters less
+	> because data keeps being fed
+	> you don't want to give preference to more recent data: LSTM cells and GRU cells
+> very sensitive to topologies and hyperparameters, resource intesive
+	> wrong choice can lead RNN to not converge really fast
 	
 """
