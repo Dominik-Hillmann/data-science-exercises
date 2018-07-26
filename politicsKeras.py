@@ -51,12 +51,12 @@ def randTestData(Y, X, num):
 	drawn = []
 	testY = []
 	testX = []
+
 	length = len(Y)
+	i = randint(0, length - 1)
 
 	while len(testY) < num:
-		# print(len(Y), len(X), len(testX), len(testY))
 		length = len(Y)
-		i = randint(0, length - 1)
 
 		while i in drawn: i = randint(0, length - 1)
 
@@ -70,7 +70,7 @@ def randTestData(Y, X, num):
 
 	return (np.array(testY), np.array(testX), Y, X)
 
-(testParty, testBehavior, party, voteBehavior) = randTestData(
+testParty, testBehavior, party, voteBehavior = randTestData(
 	party, 
 	voteBehavior, 
 	int(0.1 * len(party))
@@ -83,9 +83,9 @@ print("Test data:", (len(testParty), len(testBehavior), len(testBehavior[0])))
 
 def Model():
 	model = Sequential()
-
-	# first hidden layer: 64 neurons with shape (#dimensions, #observations), ReLU activation fn
+	
 	model.add(Dense(
+		# first hidden layer: 64 neurons with shape (#dimensions, #observations), ReLU activation fn
 		64,
 		activation = 'relu',
 		input_shape = (len(voteBehavior[0]), )
@@ -120,6 +120,9 @@ history = model.fit(
 	verbose = 2,
 	validation_data = (testBehavior, testParty)
 )
+# how to read this output: 
+#	loss and acc: loss and accuracy of the training set
+#	val_loss and val_acc: loss and accuracy of the validation data set
 
 print(model.evaluate(testBehavior, testParty, verbose = 2))
 
@@ -137,6 +140,6 @@ results = cross_val_score(
 	estimator, 
 	voteBehavior, 
 	party,
-	cv = 3 # k, number of folds
+	cv = 10 # k, number of folds
 )
 print(results.mean())

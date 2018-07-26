@@ -72,3 +72,37 @@ estimator = KerasClassifier(
 
 crossValScores = cross_val_scorce(estimator, features, labels, cv = 10)
 print(crossValScores, crossValScores.mean())
+
+"""
+***** Convolutional Neural Networks CNN *****
+> what are they used for?
+	> when you want to search for pattern but there is not any specific spot to search for them
+	> e.g. images with certain features, machine translation, sentence classification, sentiment/mood analysis
+	> like signs in a pic or words within a sentence
+> how do they work? 
+	> inspired by how brain processes images
+	> subsampling: certain neurons receive only a certain part of your data, a part of your visual field
+	> overlap to create the entire field of vision "convolution"
+	> convolution is a fancy word for breaking data up in parts and process chunks individually
+	> the first neurons might identify some simple structure like a line
+	> they feed into higher layers identifying more and more complex structures 
+	> when e.g. one neuron discovers a line and certain other neurons too, this next-layer-neuron probably fires bc it found a structure/pattern
+> in color, this needs to be done 3 times: red, blue, green
+
+> CNNs with Keras
+	> source data into appropriate dimensions
+	> Conv2D (1D, 3D, not necessarily image data) does the convolution
+	> MaxPooling2D layers reduce pictures by taking max val of a block - way to shrinken images
+		> to reduce computation - useful to reduce computation
+	> at some point fed into Perceptron -> data has to be flattened and processed further on
+	> typical:
+	  Conv2D - MAxPooling2D - Dropout - Flatten - Dense - Dropout - Softmax
+	> actual magic at lower levels
+
+> very intensive on CPU, GPU, RAM
+> lots of hyperparameters, like amount of pooling, layers, choice of optimizer
+
+> already a lot of research and there a topologies that have proven to be most useful for certain problems:
+	> LeNet-5 (handwriting), AlexNet (image classification), ResNet ("skip connections" between non neighbouring layers)
+	
+"""
