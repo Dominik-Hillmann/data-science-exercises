@@ -34,8 +34,8 @@ def displaySample(num):
     plot.imshow(image, cmap = plot.get_cmap("gray_r"))
     plot.show()
 
-import random as r
-displaySample(r.randrange(0, len(trainImages)))
+from random import randrange
+displaySample(randrange(0, len(trainImages) - 1))
 
 
 # now we set up the model: easy as that:

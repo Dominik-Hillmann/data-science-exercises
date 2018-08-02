@@ -10,8 +10,22 @@ This data contains 961 instances of masses detected in mammograms, and contains 
 
 """
 
-import keras
-from keras.datasets import mnist
-from keras.models import Sequential
-from keras.layers import Dense, Dropout
-from keras.optimizers import RMSprop
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plot
+
+# ***** Part 1: Data Preparation *****
+
+colNames = ['BI_RADS', 'age', 'shape', 'margin', 'density', 'severity']
+data = pd.read_csv(
+	'https://archive.ics.uci.edu/ml/machine-learning-databases/mammographic-masses/mammographic_masses.data', 
+	na_values = ['?'],
+	names = colNames
+)
+print(data.head())
+
+print(data.describe())
+print()
+print(data.shape)
+print()
+print(data[data[['age']] > 50.0].dropna().shape)

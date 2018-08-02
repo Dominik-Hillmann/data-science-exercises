@@ -73,7 +73,7 @@ def randTestData(Y, X, num):
 testParty, testBehavior, party, voteBehavior = randTestData(
 	party, 
 	voteBehavior, 
-	int(0.1 * len(party))
+	int(0.1 * len(party)) # test data is 10% of all data
 )
 
 
@@ -143,3 +143,4 @@ results = cross_val_score(
 	cv = 10 # k, number of folds
 )
 print(results.mean())
+
