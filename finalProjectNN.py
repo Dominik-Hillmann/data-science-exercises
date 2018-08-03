@@ -28,4 +28,29 @@ print(data.describe())
 print()
 print(data.shape)
 print()
-print(data[data[['age']] > 50.0].dropna().shape)
+# print(data[data[['age']] > 50.0].dropna().shape)
+data = data.dropna()
+print(data.head())
+print(data.shape)
+
+# create NumPy arrays for the features
+Y = (data[['severity']].values)#.flatten() cannot be flattened here because standard sclaer expects 2D array
+X = data.drop(['BI_RADS', 'severity'], axis = 1).values
+print('X shape: ' + str(X.shape))
+print('Y shape: ' + str(Y.shape))
+
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+scaler.fit(X) #
+X = scaler.transform(X)
+scaler.fit(Y)
+Y = scaler.transform(Y)
+print(X)
+print(Y)
+
+def randSplit(data, percent):
+	from random import randint
+
+	for i in range(len(data) - 1):
+		if random() < percent:
+			print(),
