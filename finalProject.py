@@ -7,7 +7,6 @@ This data contains 961 instances of masses detected in mammograms, and contains 
 	Margin: mass margin: circumscribed=1 microlobulated=2 obscured=3 ill-defined=4 spiculated=5 (nominal)
 	Density: mass density high=1 iso=2 low=3 fat-containing=4 (ordinal)
 	Severity: benign=0 or malignant=1 (binominal)
-
 """
 
 import pandas as pd
@@ -83,6 +82,7 @@ def randTestData(Y, X, num):
 	return (np.array(testY), np.array(testX), Y, X)
 
 testY, testX, trainY, trainX = randTestData(np.array(Y), np.array(X), int(0.15 * len(Y)))
+nTestY, nTestX, nTrainY, nTrainX = randTestData(np.array(normY), np.array(normX), int(0.15 * len(Y)))
 
 def correctPreds(predY, testY):
 	corrects = 0
@@ -112,6 +112,9 @@ def decesionTree(trainX, trainY, testX, testY, featureNames, useForest = False):
 	
 decesionTree(trainX, trainY, testX, testY, colNames)
 decesionTree(trainX, trainY, testX, testY, colNames, useForest = True)
+
+# decesionTree(nTrainX, nTrainY, nTestX, nTestY, colNames)
+# decesionTree(nTrainX, nTrainY, nTestX, nTestY, colNames, useForest = True)
 # both models usually achieve between 65% and 80% accuracy where the Forest always has a slight edge of ~3%
 
 
@@ -133,6 +136,9 @@ applySVM(trainX, trainY, testX, testY, 'linear') # linear kernel scores about as
 applySVM(trainX, trainY, testX, testY, 'sigmoid') # about 50% correct predictions
 applySVM(trainX, trainY, testX, testY, 'rbf')
 
+applySVM(nTrainX, nTrainY, nTestX, nTestY, 'linear')
+applySVM(nTrainX, nTrainY, nTestX, nTestY, 'sigmoid') 
+applySVM(nTrainX, nTrainY, nTestX, nTestY, 'rbf')
 
 
 # ***** 3rd Model: K Nearest Neighbours *****
@@ -148,6 +154,10 @@ def knn(trainX, trainY, testX, testY, k = 1):
 
 for k in range(1, 50):
 	knn(trainX, trainY, testX, testY, k = k)
+	# k == 8 seems to work best with results of around 80% accuracy
+print("Now KNN with normalized data:")
+for k in range(1, 50):
+	knn(nTrainX, nTrainY, nTestX, nTestY, k = k)
 	# k == 8 seems to work best with results of around 80% accuracy
 print()
 
@@ -165,7 +175,7 @@ def logRegression(trainX, trainY, testX, testY):
 
 logRegression(trainX, trainY, testX, testY)
 # around 80% accuracy, too
-
+logRegression(nTrainX, nTrainY, nTestX, nTestY)
 
 
 # ***** 5th Model: Artificial Neural Network *****
@@ -202,14 +212,17 @@ def modelNN(trainX, trainY, testX, testY):
 		validation_data = (testX, testY)
 	)
 
+	print(model.evaluate(testX, testY, verbose = 2))
 	# predY = classifier.predict(testY)
 	# print('NN: ' + str(correctPreds(predY, testY)))
 
 	return classifier
 
 modelNN(trainX, trainY, testX, testY)
+modelNN(nTrainX, nTrainY, nTestX, nTestY)
 # the NN is able to predict with an accuracy of around 83%
 # networks with more or less than 64 neurons in two layers perform about 10% worse
 # networks with more layers perform 4% worse
 
-#https://www.youtube.com/watch?v=YKP31T5LIXQ
+# https://www.youtube.com/watch?v=YKP31T5LIXQ
+# https://www.kaggle.com/c/new-york-city-taxi-fare-prediction/leaderboard

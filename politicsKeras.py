@@ -126,7 +126,7 @@ history = model.fit(
 
 print(model.evaluate(testBehavior, testParty, verbose = 2))
 
-# from tensorflow.Keras.wrappers.scikit_learn import KerasClassifier
+from tensorflow.Keras.wrappers.scikit_learn import KerasClassifier
 # evaluate using 10-fold cross validation
 estimator = KerasClassifier(
 	build_fn = Model,
